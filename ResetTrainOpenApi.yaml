@@ -1,0 +1,860 @@
+openapi: 3.0.3
+info:
+  title: Reset Train - OpenAPI 3.0
+  description: |-
+    Servidor de Reset Train con especificaciones OpenAPI 3.0. 
+
+  termsOfService: http://localhost:8080/gym/
+  contact:
+    email: resettrain@info.es
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: link de cosas
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8080/gym/
+tags:
+  - name: Perfil
+    description: Perfiles de los usuarios
+    externalDocs:
+      description: Más
+      url: http://swagger.io
+  - name: Usuario
+    description: Usuarios de Reset Train
+    externalDocs:
+      description: Más
+      url: http://swagger.io
+  - name: Rutina
+    description: Rutinas de los usuarios
+    externalDocs:
+      description: Más
+      url: http://swagger.io
+paths:
+  /perfils:
+    get:
+      tags:
+        - Perfil
+      summary: Listar perfiles
+      description: Lista todos los perfiles disponibles
+      operationId: getPerfil
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Perfil'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Perfil'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+  /perfiles:
+    get:
+      tags:
+        - Perfil
+      summary: Listar perfiles
+      description: Lista todos los perfiles disponibles
+      operationId: getPerfiles
+      parameters:
+        - name: obesidad
+          in: query
+          description: Muestra todos los perfiles con obesidad
+          required: false
+          explode: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Perfil'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Perfil'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+    post:
+      tags:
+        - Perfil
+      summary: Añade una nuevo perfil
+      description: Añade una nuevo perfil a la bbdd
+      operationId: addPerfil
+      requestBody:
+        description: Crea una nuevo perfil
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Perfil'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Perfil'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Perfil'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Perfil'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Perfil'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                mensaje: "Argumento no válido."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+  /perfil/{id}:
+    delete:
+      tags:
+        - Perfil
+      summary: Borra un perfil por ID
+      description: borra un perfil por ID
+      operationId: deletePerfil
+      parameters:
+        - name: id
+          in: path
+          description: Perfil id a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Sin contenido(exito al borrar)
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                mensaje: "El ID no existe."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+    put:
+      tags:
+        - Perfil
+      summary: Actualiza un perfil por ID
+      description: Actualiza por ID
+      operationId: modifyPerfil
+      parameters:
+        - name: id
+          in: path
+          description: ID del perfil a actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: fechaMedicion
+          in: query
+          description: fecha de la medición
+          schema:
+            type: string
+            format: date-time
+        - name: obesidad
+          in: query
+          description: Si la persona tiene obesidad
+          schema:
+            type: boolean
+        - name: ritmoCardiaco
+          in: query
+          description: ritmo cardiaco
+          schema:
+            type: integer
+            format: int32
+        - name: imc
+          in: query
+          description: Imc del usuario
+          schema:
+            type: integer
+            format: int32
+        - name: peso
+          in: query
+          description: Peso del usuario
+          schema:
+            type: integer
+            format: int32
+        - name: medidas
+          in: query
+          description: medidas del usuario
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: Actualiza un perfil existente en la bbdd
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PerfilBody'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/PerfilBody'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PerfilBody'
+        required: true
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Perfil'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Perfil'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                mensaje: "Argumento no válido."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                mensaje: "El ID no existe."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+  /rutins:
+    get:
+      tags:
+        - Rutina
+      summary: Listar rutinas
+      description: Lista todos las rutinas disponibles
+      operationId: getRutina
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rutina'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rutina'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+  /rutinas:
+    get:
+      tags:
+        - Rutina
+      summary: Listar rutinas
+      description: Lista todas las rutinas disponibles con filtro
+      operationId: getRutinas
+      parameters:
+        - name: material
+          in: query
+          description: Muestra todos las rutinas con material
+          required: false
+          explode: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rutina'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rutina'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+    post:
+      tags:
+        - Rutina
+      summary: Añade una nueva rutina
+      description: Añade una nueva rutina a la bbdd
+      operationId: addRutina
+      requestBody:
+        description: Crea una nueva rutina
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rutina'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Rutina'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Rutina'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rutina'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rutina'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                mensaje: "Argumento no válido."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+  /rutina/{id}:
+    delete:
+      tags:
+        - Rutina
+      summary: Borra una rutina por ID
+      description: borra una rutina por ID
+      operationId: deleteRutina
+      parameters:
+        - name: id
+          in: path
+          description: Rutina id a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Sin contenido(exito al borrar)
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                mensaje: "El ID no existe."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+    put:
+      tags:
+        - Rutina
+      summary: Actualiza una rutina por ID
+      description: Actualiza por ID
+      operationId: modifyRutina
+      parameters:
+        - name: id
+          in: path
+          description: ID de la rutina a actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: diasEntrenados
+          in: query
+          description: Días que ha entrenado
+          schema:
+            type: integer
+            format: int32
+        - name: duracion
+          in: query
+          description: Duración del entrenamiento
+          schema:
+            type: integer
+            format: int32
+        - name: modalidad
+          in: query
+          description: Días que ha entrenado
+          schema:
+            type: string
+        - name: numeroDeRepeticiones
+          in: query
+          description: Días que ha entrenado
+          schema:
+            type: integer
+            format: int32
+        - name: numeroDeSeries
+          in: query
+          description: Días que ha entrenado
+          schema:
+            type: integer
+            format: int32
+        - name: material
+          in: query
+          description: Días que ha entrenado
+          schema:
+            type: boolean
+      requestBody:
+        description: Actualiza una rutina existente en la bbdd
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RutinaBody'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/RutinaBody'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RutinaBody'
+        required: true
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rutina'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rutina'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                mensaje: "Argumento no válido."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                mensaje: "El ID no existe."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+  /users:
+    get:
+      tags:
+        - Usuario
+      summary: Listar usuarios
+      description: Lista todos los usuarios disponibles
+      operationId: getUsuario
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+  /usuarios:
+    get:
+      tags:
+        - Usuario
+      summary: Listar usuarios
+      description: Lista todos los usuarios disponibles con filtro
+      operationId: getUsuarios
+      parameters:
+        - name: lesionado
+          in: query
+          description: Muestra todos los usuarios lesionados
+          required: false
+          explode: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+  /usuario:
+    post:
+      tags:
+        - Usuario
+      summary: Añade una nuevo usuario
+      description: Añade una nuevo usuario a la bbdd
+      operationId: addUsuario
+      requestBody:
+        description: Crea una nuevo usuario
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                mensaje: "Argumento no válido."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+  /usuario/{id}:
+    delete:
+      tags:
+        - Usuario
+      summary: Borra un usuario por ID
+      description: borra un usuario por ID
+      operationId: deleteUsuario
+      parameters:
+        - name: id
+          in: path
+          description: Usuario id a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Sin contenido(exito al borrar)
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                mensaje: "El ID no existe."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+    put:
+      tags:
+        - Usuario
+      summary: Actualiza un usuario por ID
+      description: Actualiza por ID
+      operationId: modifyUsuario
+      parameters:
+        - name: id
+          in: path
+          description: ID del usuario a actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: nombreUsuario
+          in: query
+          description: nombre del usuario
+          schema:
+            type: string
+        - name: correo
+          in: query
+          description: correo del usuario
+          schema:
+            type: string
+        - name: phone
+          in: query
+          description: Número del usuario
+          schema:
+            type: string
+        - name: lesionado
+          in: query
+          description: Si el usuario esta lesionado
+          schema:
+            type: boolean
+      requestBody:
+        description: Actualiza un usuario existente en la bbdd
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioBody'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/UsuarioBody'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsuarioBody'
+        required: true
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                mensaje: "Argumento no válido."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                mensaje: "El ID no existe."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+components:
+  schemas:
+    Perfil:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        ritmoCardiaco:
+          type: integer
+          format: int32
+          example: 85
+        peso:
+          type: integer
+          format: int32
+          example: 80
+        imc:
+          type: integer
+          format: int32
+          example: 25
+        obesidad:
+          type: boolean
+          example: true
+        fechaMedicion:
+          type: string
+          format: date-time
+          example: 2023-05-06
+        medidas:
+          type: string
+          example: 97-80-85
+      xml:
+        name: perfil
+    Rutina:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        modalidad:
+          type: integer
+          format: int32
+          example: 85
+        material:
+          type: boolean
+          example: true
+        numeroSeries:
+          type: integer
+          format: int32
+          example: 5
+        numeroRepeticiones:
+          type: integer
+          format: int32
+          example: 15
+        diasEntrenados:
+          type: integer
+          format: int32
+          example: 10
+        duracion:
+          type: integer
+          format: int32
+          example: 60
+      xml:
+        name: rutina
+    Usuario:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        nombreUsuario:
+          type: string
+          example: Paco
+        dniUsuario:
+          type: string
+          example: 12345678A
+        correo:
+          type: string
+          example: correopaco@email.es
+        fechaNacimiento:
+          type: string
+          format: date-time
+          example: 1995-05-20
+        phone:
+          type: string
+          example: 666666666
+        lesionado:
+          type: boolean
+          example: true
+      xml:
+        name: usuario
+    PerfilBody:
+      type: object
+      properties:
+        ritmoCardiaco:
+          type: integer
+          format: int32
+          example: 85
+        peso:
+          type: integer
+          format: int32
+          example: 80
+        imc:
+          type: integer
+          format: int32
+          example: 25
+        obesidad:
+          type: boolean
+          example: true
+        fechaMedicion:
+          type: string
+          format: date-time
+          example: 2023-05-06
+        medidas:
+          type: string
+          example: 97-80-85
+      xml:
+        name: PerfilBody
+    RutinaBody:
+      type: object
+      properties:
+        modalidad:
+          type: integer
+          format: int32
+          example: 85
+        material:
+          type: boolean
+          example: true
+        numeroSeries:
+          type: integer
+          format: int32
+          example: 5
+        numeroRepeticiones:
+          type: integer
+          format: int32
+          example: 15
+        diasEntrenados:
+          type: integer
+          format: int32
+          example: 10
+        duracion:
+          type: integer
+          format: int32
+          example: 60
+      xml:
+        name: RutinaBody
+    UsuarioBody:
+      type: object
+      properties:
+        nombreUsuario:
+          type: string
+          example: Paco
+        correo:
+          type: string
+          example: correopaco@email.es
+        phone:
+          type: string
+          example: 666666666
+        lesionado:
+          type: boolean
+          example: true
+      xml:
+        name: UsuarioBody
