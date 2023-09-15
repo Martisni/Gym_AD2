@@ -34,6 +34,13 @@ public class PerfilController {
         }
     }
 
+    @GetMapping("/gym/perfils/{id}")
+    public ResponseEntity<Perfil> getPerfilById(@PathVariable long id) throws PerfilNotFoundException {
+        Perfil perfil = perfilService.findById(id);
+        logger.debug("PerfilController: Iniciado get perfil");
+        return ResponseEntity.ok(perfil);
+    }
+
     @GetMapping("/gym/perfils")
     public ResponseEntity<List<Perfil>> getPerfil() {
         List<Perfil> perfiles = perfilService.findAll();

@@ -35,6 +35,13 @@ public class RutinaController {
         }
     }
 
+    @GetMapping("/gym/rutins/{id}")
+    public ResponseEntity<Rutina> getRutinaById(@PathVariable long id) throws RutinaNotFoundException {
+        Rutina rutinas = rutinaService.findById(id);
+        logger.debug("RutinaController: Iniciado get rutinas");
+        return ResponseEntity.ok(rutinas);
+    }
+
     @GetMapping("/gym/rutins")
     public ResponseEntity<List<Rutina>> getRutina() {
         List<Rutina> rutinas = rutinaService.findAll();

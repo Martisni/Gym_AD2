@@ -60,6 +60,49 @@ paths:
             application/json:
               example:
                 mensaje: "Ocurrió un error interno en el servidor."
+  /perfils/{id}:
+    get:
+      tags:
+        - Perfil
+      summary: Buscar perfil por ID
+      description: Devuelve un perfil
+      operationId: getPerfilById
+      parameters:
+        - name: id
+          in: path
+          description: ID de la perfil a devolver
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Perfil'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Perfil'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                mensaje: "El id debe ser un número."
+        '404':
+          description: Perfil no encontrada
+          content:
+            application/json:
+              example:
+                mensaje: "La rutina solicitada no fue encontrada."
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
   /perfiles:
     get:
       tags:
@@ -283,6 +326,49 @@ paths:
             application/json:
               example:
                 mensaje: "Ocurrió un error interno en el servidor."
+  /rutins/{id}:
+    get:
+      tags:
+        - Rutina
+      summary: Buscar rutina por ID
+      description: Devuelve una rutina
+      operationId: getRutinaById
+      parameters:
+        - name: id
+          in: path
+          description: ID de la rutina a devolver
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Perfil'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Perfil'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                mensaje: "El id debe ser un número."
+        '404':
+          description: Rutina no encontrada
+          content:
+            application/json:
+              example:
+                mensaje: "La rutina solicitada no fue encontrada."
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
   /rutinas:
     get:
       tags:
@@ -501,6 +587,49 @@ paths:
                   $ref: '#/components/schemas/Usuario'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              example:
+                mensaje: "Ocurrió un error interno en el servidor."
+  /users/{id}:
+    get:
+      tags:
+        - Usuario
+      summary: Buscar usuario por ID
+      description: Devuelve una usuario
+      operationId: getRutinaById
+      parameters:
+        - name: id
+          in: path
+          description: ID del usuario a devolver
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Perfil'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Perfil'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                mensaje: "El id debe ser un número."
+        '404':
+          description: Usuario no encontrada
+          content:
+            application/json:
+              example:
+                mensaje: "La rutina solicitada no fue encontrada."
+        '500':
+          description: Error interno del servidor
           content:
             application/json:
               example:

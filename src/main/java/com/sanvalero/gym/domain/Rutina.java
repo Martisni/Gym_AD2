@@ -35,5 +35,7 @@ public class Rutina {
     @Column
     @Max(value = 60)
     private int duracion;
+    @Column(name = "favorito")
+    private boolean favorito;
 
 }

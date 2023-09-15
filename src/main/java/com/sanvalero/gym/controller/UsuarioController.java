@@ -37,6 +37,13 @@ public class UsuarioController {
         }
     }
 
+    @GetMapping("/gym/users/{id}")
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable long id) throws UsuarioNotFoundException{
+        Usuario usuarios = usuarioService.findById(id);
+        logger.debug("UsuarioController: Iniciado get usuario");
+        return ResponseEntity.ok(usuarios);
+    }
+
     @GetMapping("/gym/users")
     public ResponseEntity<List<Usuario>> getUsuario() {
         List<Usuario> usuarios = usuarioService.findAll();
